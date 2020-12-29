@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+
+  "name": "Quick copy",
+  "description": "This extension allows for quick copy configured words",
+  "version": "0.1",
+  "icons":{
+  },
+  "browser_action": {
+   "default_popup": "index.html"
+  },
+  "permissions": ["storage"] 
+}

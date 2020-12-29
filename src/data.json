@@ -1,0 +1,22 @@
+[
+    {
+        "text": "Sample data1",
+        "order": 1,
+        "bgcolor": "#FF00FF"
+    },
+    {
+        "text": "Sample data2",
+        "order": 2,
+        "bgcolor": "#FFFFFF"
+    },
+    {
+        "text": "Sample data3",
+        "order": 3,
+        "bgcolor": "#00FF00"
+    },
+    {
+        "text": "Sample data4",
+        "order": 4,
+        "bgcolor": "#FFFFFF"
+    }
+]

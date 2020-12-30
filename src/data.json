@@ -1,20 +1,24 @@
 [
     {
+        "id": "3b754a69-6786-4ac8-9dec-5420d2a680f4",
         "text": "long long long long long long long long sting to copy",
         "order": 1,
         "bgcolor": "#FF00FF"
     },
     {
+        "id": "7e6e15ac-f4f7-48e4-9237-925d84754609",
         "text": "Sample data2",
         "order": 2,
         "bgcolor": "#FFFFFF"
     },
     {
+        "id": "faac662f-4942-4a01-955e-647a763b16bc",
         "text": "Sample data3",
         "order": 3,
         "bgcolor": "#00FF00"
     },
     {
+        "id": "1735354c-6ccd-49ee-815c-1caf1cc07ad3",
         "text": "Sample data4",
         "order": 4,
         "bgcolor": "#FFFFFF"

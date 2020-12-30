@@ -1,10 +1,19 @@
 
+
 const UserData = ({data}) =>{
     return(
-        <div style={{backgroundColor:data.bgcolor, width:200}}>
-            {data.text}
-        </div>
+        <tr style={{backgroundColor:data.bgcolor}}>
+            <td>{sanitizeText(data.text)}</td>
+            <td><a href="#">copy</a></td>
+        </tr>
     );
 }
 
-export default UserData;
+const sanitizeText = (text) => {
+    if(text.length > 40){
+        return (text.substring(0,37) + '...')
+    }
+    return text;
+}
+
+export default UserData; 

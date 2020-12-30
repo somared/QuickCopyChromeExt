@@ -2,13 +2,13 @@ import UserData from "./UserData";
 
 const UserDataList = ({dataList}) => {
     return(
-        <div>
+        <table style={{width:300}}>
             {
                 dataList.map(d => {
                     return(<UserData data ={d}/>)
                 })
             }
-        </div>
+        </table>
     );    
 }
 

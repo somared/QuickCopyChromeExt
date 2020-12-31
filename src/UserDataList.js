@@ -2,7 +2,7 @@ import UserData from "./UserData";
 
 const UserDataList = ({dataList, removeItem}) => {
     return(
-        <table style={{width:300}}>
+        <table className="table table-hover table-sm" style={{width:300, margin:10}}>
             <tbody>
                 {
                     dataList.map(d => {

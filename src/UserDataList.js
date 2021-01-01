@@ -1,16 +1,20 @@
+import List from '@material-ui/core/List';
 import UserData from "./UserData";
 
 const UserDataList = ({dataList, removeItem}) => {
+
+    const handleRemoveItem = (e) =>{
+        alert(e.target.dataset.id);
+    }
+
     return(
-        <table className="table table-hover table-sm" style={{width:300, margin:10}}>
-            <tbody>
-                {
-                    dataList.map(d => {
-                        return(<UserData data={d} deleteItem={removeItem}/>)
-                    })
-                }
-            </tbody>
-        </table>
+        <List dense="true" style={{width:"350px"}}>
+            {
+                dataList.map(d => {
+                    return(<UserData data={d} deleteItem={removeItem}/>)
+                })
+            }
+        </List>
     );    
 }
 

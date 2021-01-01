@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Divider from '@material-ui/core/Divider'
 import UserDataList from "./UserDataList" ;
 import AddData from "./AddDataForm"
 import data from "./data.json";
@@ -47,6 +48,7 @@ function App() {
   return (
     <div>
       <UserDataList dataList={userList} removeItem={removeData} />
+      <Divider/>
       <AddData addItem={insertData}/>
     </div>
   );

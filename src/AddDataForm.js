@@ -14,16 +14,18 @@ const AddData = ({addItem}) =>{
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        addItem(userTextInput, userColorInput);
-        setUserTextInput("");
-        setUserColorInput("#DBA4A4");
+        if(userTextInput){
+            addItem(userTextInput, userColorInput);
+            setUserTextInput("");
+            setUserColorInput("#DBA4A4");
+        }
     }
 
     return(
         <form onSubmit={handleSubmit}>
             <div>
-                <input type="text" class="form-control form-control-sm" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
-                <input type="color" class="form-control form-control-color form-control-sm" value={userColorInput} onChange={handleColorChange} title="Choose your color"></input>
+                <input type="text" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
+                <input type="color" value={userColorInput} onChange={handleColorChange} title="Choose your color"></input>
                 <button>Add</button>
             </div>
         </form>

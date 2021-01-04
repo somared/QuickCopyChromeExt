@@ -1,15 +1,24 @@
 import React, {useState} from 'react';
+import reactCSS from 'reactcss'
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
+import { TwitterPicker } from 'react-color';
+
 const AddData = ({addItem}) =>{
 
     const[userTextInput, setUserTextInput] = useState('');
-    const[userColorInput, setUserColorInput] = useState('#DBA4A4');
+    const[userColorInput, setUserColorInput] = useState('#ABB8C3');
+    const[showColorPicker, setShowColorPicker] = useState(false);
 
     const handleTextChange = (e) => {
         setUserTextInput(e.currentTarget.value)
     }
 
-    const handleColorChange = (e) => {
-        setUserColorInput(e.currentTarget.value)
+    const handleColorChange = (color) => {
+        setUserColorInput(color.hex);
+        setShowColorPicker(false);
     }
 
     const handleSubmit = (e) =>{
@@ -17,17 +26,72 @@ const AddData = ({addItem}) =>{
         if(userTextInput){
             addItem(userTextInput, userColorInput);
             setUserTextInput("");
-            setUserColorInput("#DBA4A4");
+            setUserColorInput("#ABB8C3");
         }
     }
 
+    const handleSwatchClick = () => {
+        setShowColorPicker(!showColorPicker);
+    };
+
+    const handleClose = () => {
+        setShowColorPicker(false);
+    };
+
+    const styles = reactCSS({
+        'default': {
+          color: {
+            width: '36px',
+            height: '28px',
+            borderRadius: '2px',
+            background: `${userColorInput}`,
+            
+          },
+          swatch: {
+            padding: '5px',
+            background: '#fff',
+            borderRadius: '1px',
+            boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+            display: 'inline-block',
+            cursor: 'pointer',
+            
+          },
+          popover: {
+            position: 'absolute',
+            zIndex: '1',
+            display:'block'
+          },
+          cover: {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px',
+          },
+        },
+      });
+
+      
     return(
+        
         <form onSubmit={handleSubmit}>
-            <div>
-                <input type="text" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
-                <input type="color" value={userColorInput} onChange={handleColorChange} title="Choose your color"></input>
-                <button>Add</button>
-            </div>
+            <List dense="true" style={{width:"350px"}}>
+                <ListItem>
+                    <TextField variant="outlined" size="small" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
+                    <div style={ styles.swatch } onClick={handleSwatchClick}>
+                        <div style={ styles.color } />
+                    </div>
+                    <Button color="primary" variant="contained" onClick={handleSubmit} >Add</Button>
+                    { 
+                        showColorPicker? 
+                            <div style={ styles.popover }>
+                                <div style={ styles.cover } onClick={ handleClose }/>
+                                <TwitterPicker color={userColorInput} onChange={handleColorChange} triangle="hide" /> 
+                            </div>
+                            : null 
+                    }
+                </ListItem>
+            </List>
         </form>
     );
 }

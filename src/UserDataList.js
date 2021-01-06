@@ -7,7 +7,7 @@ const UserDataList = ({dataList, removeItem}) => {
             <List dense="true" style={{width:"350px"}}>
                 {
                     dataList.map(d => {
-                        return(<UserData data={d} deleteItem={removeItem}/>)
+                        return(<UserData data={d} deleteItem={removeItem} key={d.id}/>)
                     })
                 }
             </List>

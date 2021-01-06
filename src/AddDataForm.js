@@ -80,7 +80,7 @@ const AddData = ({addItem}) =>{
         <form onSubmit={handleSubmit}>
             <List dense="true" style={{width:"350px"}}>
                 <ListItem>
-                    <TextField variant="outlined" size="small" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
+                    <TextField size="small" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
                     <div style={ styles.swatch } onClick={handleSwatchClick}>
                         <div style={ styles.color } />
                     </div>

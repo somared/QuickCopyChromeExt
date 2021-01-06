@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 
+
 const UserData = ({data, deleteItem}) =>{
 
     const handleRemoveItem = (e) =>{
@@ -19,7 +20,7 @@ const UserData = ({data, deleteItem}) =>{
     return(
         <div>
             <ListItem>
-                <TextField style={{backgroundColor:`${data.bgcolor}`, cursor:'pointer'}} fullWidth variant="outlined" size="small" value={data.text} onClick={handleCopyItem}/>
+                <TextField style={{backgroundColor:`${data.bgcolor}`}} fullWidth variant="outlined" size="small" value={data.text} onClick={handleCopyItem}/>
                 <ListItemSecondaryAction>
                     <IconButton edge="end"  aria-label="comments" onClick={()=>handleRemoveItem(data.id)}  >
                         <DeleteIcon />

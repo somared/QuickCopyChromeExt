@@ -9,7 +9,7 @@ import { TwitterPicker } from 'react-color';
 const AddData = ({addItem}) =>{
 
     const[userTextInput, setUserTextInput] = useState('');
-    const[userColorInput, setUserColorInput] = useState('#ABB8C3');
+    const[userColorInput, setUserColorInput] = useState('#FFFFFF');
     const[showColorPicker, setShowColorPicker] = useState(false);
 
     const handleTextChange = (e) => {
@@ -26,7 +26,7 @@ const AddData = ({addItem}) =>{
         if(userTextInput){
             addItem(userTextInput, userColorInput);
             setUserTextInput("");
-            setUserColorInput("#ABB8C3");
+            setUserColorInput("#FFFFFF");
         }
     }
 
@@ -38,6 +38,8 @@ const AddData = ({addItem}) =>{
         setShowColorPicker(false);
     };
 
+    const paletteColors = ['#FB8C00', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#F06292', '#F78DA7', '#BA68C8'];
+
     const styles = reactCSS({
         'default': {
           color: {
@@ -45,7 +47,8 @@ const AddData = ({addItem}) =>{
             height: '28px',
             borderRadius: '2px',
             background: `${userColorInput}`,
-            
+            borderWidth: '1px',
+            borderStyle: 'solid'
           },
           swatch: {
             padding: '5px',
@@ -86,7 +89,7 @@ const AddData = ({addItem}) =>{
                         showColorPicker? 
                             <div style={ styles.popover }>
                                 <div style={ styles.cover } onClick={ handleClose }/>
-                                <TwitterPicker color={userColorInput} onChange={handleColorChange} triangle="hide" /> 
+                                <TwitterPicker color={userColorInput} colors={paletteColors} onChange={handleColorChange} triangle="hide" /> 
                             </div>
                             : null 
                     }

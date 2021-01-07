@@ -8,7 +8,7 @@ import data from "./data.json";
 
 function App() {
   const[userList, setUserList] = useState(data);
-  //const[userList, setUserList] = useState([]);
+  // const[userList, setUserList] = useState([]);
   
   // //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
   // window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {

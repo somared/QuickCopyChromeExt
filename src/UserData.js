@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 
 
-const UserData = ({data, deleteItem}) =>{
+const UserData = ({data, deleteItem, showMessage}) =>{
 
     const handleRemoveItem = (e) =>{
         deleteItem(e);
@@ -14,7 +14,7 @@ const UserData = ({data, deleteItem}) =>{
     const handleCopyItem = (e) =>{
         e.target.select();
         document.execCommand('copy');
-        e.target.focus();
+        showMessage('Copied');
     }
 
     return(

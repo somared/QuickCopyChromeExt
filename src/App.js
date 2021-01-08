@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Divider from '@material-ui/core/Divider'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 import UserDataList from "./UserDataList" ;
 import AddData from "./AddDataForm"
 import data from "./data.json";
 
 function App() {
+  const[snackBar, setSnackbar] = useState(false);
+  const[snackBarMsg, setSnackBarMsg] = useState('');
   const[userList, setUserList] = useState(data);
   // const[userList, setUserList] = useState([]);
   
@@ -38,12 +41,17 @@ function App() {
   }
 
   const removeData = (itemId) =>{
-    let newUserList = userList.filter(item => item.id != itemId);
+    let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
     // window.chrome.storage.sync.set({'userData': newUserList}, function() {
     //   console.log('item deleted');
     // });
+  }
+
+  const showSnackbar = (message) =>{
+    setSnackBarMsg(message);
+    setSnackbar(true);
   }
 
   const overrideTheme = createMuiTheme({
@@ -54,15 +62,20 @@ function App() {
         },
       },
     },
-});
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(false);
+  }
 
   return (
     <div>
       <ThemeProvider theme={overrideTheme}>
-        <UserDataList dataList={userList} removeItem={removeData} />
+        <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
         <Divider/>
         <AddData addItem={insertData}/>
       </ThemeProvider>
+      <Snackbar autoHideDuration="1000" open={snackBar} onClose={handleCloseSnackbar} message={snackBarMsg} key="snackbar1" />
     </div>
   );
 }

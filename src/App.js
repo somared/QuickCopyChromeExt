@@ -10,18 +10,18 @@ import data from "./data.json";
 function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
-  const[userList, setUserList] = useState(data);
-  // const[userList, setUserList] = useState([]);
+  // const[userList, setUserList] = useState(data);
+  const[userList, setUserList] = useState([]);
   
-  // //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
-  // window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
-  //   console.log("Total Bytes:" + tBytes);
-  //   if(tBytes > 0){
-  //       window.chrome.storage.sync.get(['userData'], function(result) {
-  //         setUserList(result.userData);
-  //       });
-  //   }
-  // });
+  //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
+  window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
+    console.log("Total Bytes:" + tBytes);
+    if(tBytes > 0){
+        window.chrome.storage.sync.get(['userData'], function(result) {
+          setUserList(result.userData);
+        });
+    }
+  });
 
   const insertData = (item,backgroundColor) =>{
     let newData={
@@ -35,18 +35,18 @@ function App() {
     newUserList.push(newData);
     setUserList(newUserList);
 
-    // window.chrome.storage.sync.set({'userData': newUserList}, function() {
-    //   console.log('item added');
-    // });
+    window.chrome.storage.sync.set({'userData': newUserList}, function() {
+      console.log('item added');
+    });
   }
 
   const removeData = (itemId) =>{
     let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
-    // window.chrome.storage.sync.set({'userData': newUserList}, function() {
-    //   console.log('item deleted');
-    // });
+    window.chrome.storage.sync.set({'userData': newUserList}, function() {
+      console.log('item deleted');
+    });
   }
 
   const showSnackbar = (message) =>{

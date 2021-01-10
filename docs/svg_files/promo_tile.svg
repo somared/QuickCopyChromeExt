@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="440"
+   height="280"
+   viewBox="0 0 116.41666 74.083335"
+   version="1.1"
+   id="svg1605"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="promo_tile.svg"
+   inkscape:export-filename="C:\Users\somaredi\Downloads\promo_tile.png"
+   inkscape:export-xdpi="96.152962"
+   inkscape:export-ydpi="96.152962">
+  <defs
+     id="defs1599">
+    <inkscape:path-effect
+       only_selected="false"
+       apply_with_weight="true"
+       apply_no_weight="true"
+       helper_size="0"
+       steps="2"
+       weight="33.333333"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect28"
+       effect="bspline" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="268.00137"
+     inkscape:cy="163.05527"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer4"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1602">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:0.999;fill:#0693e3;fill-opacity:1;stroke:#28170b;stroke-width:0.599743;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect1709"
+       width="115.76126"
+       height="73.365738"
+       x="0.26714045"
+       y="0.26714045" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 2">
+    <g
+       id="g65"
+       transform="matrix(0.99913616,0,0,1.0000035,118.24401,5.4067624)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.8462px;line-height:1.25;font-family:'Snap ITC';-inkscape-font-specification:'Snap ITC';white-space:pre;fill:#ffe680;fill-opacity:1;stroke:none;stroke-width:0.840863"
+         x="-82.652603"
+         y="31.694044"
+         id="text87"
+         transform="scale(0.97059862,1.030292)"><tspan
+           id="tspan85"
+           x="-82.652603"
+           y="31.694044"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.846px;font-family:'Snap ITC';-inkscape-font-specification:'Snap ITC';fill:#ffe680;stroke-width:0.840863">Q</tspan></text>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Layer 3">
+    <text
+       transform="scale(0.99956623,1.000434)"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.6313px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264469"
+       x="9.1484575"
+       y="63.542603"
+       id="text1714"><tspan
+         sodipodi:role="line"
+         id="tspan1712"
+         x="9.1484575"
+         y="63.542603"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.6313px;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';fill:#ffffff;stroke-width:0.264469">Quick Copy</tspan></text>
+  </g>
+</svg>

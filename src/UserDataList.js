@@ -1,20 +1,26 @@
 import List from '@material-ui/core/List';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import UserData from "./UserData";
 
-const UserDataList = ({dataList, removeItem}) => {
-
-    const handleRemoveItem = (e) =>{
-        alert(e.target.dataset.id);
-    }
-
+const UserDataList = ({dataList, removeItem, showMessage}) => {
     return(
-        <List dense="true" style={{width:"350px"}}>
+        <div style={{width:"350px"}}>
             {
-                dataList.map(d => {
-                    return(<UserData data={d} deleteItem={removeItem}/>)
-                })
+                (dataList.length > 0) ?
+                    <List dense="true" >
+                        {
+                            dataList.map(d => {
+                                return(<UserData data={d} deleteItem={removeItem} key={d.id} showMessage={showMessage}/>)
+                            })
+                        }
+                    </List>
+                    :
+                    <Card>
+                        <CardContent>No data is configured. Add text using below form</CardContent>
+                    </Card>
             }
-        </List>
+        </div>
     );    
 }
 

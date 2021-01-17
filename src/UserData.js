@@ -22,7 +22,7 @@ const UserData = ({data, deleteItem, showMessage}) =>{
             <ListItem>
                 <TextField style={{backgroundColor:`${data.bgcolor}`}} fullWidth variant="outlined" size="small" value={data.text} onClick={handleCopyItem}/>
                 <ListItemSecondaryAction>
-                    <IconButton edge="end"  aria-label="comments" onClick={()=>handleRemoveItem(data.id)}  >
+                    <IconButton edge="end"  aria-label="delete" onClick={()=>handleRemoveItem(data.id)}  >
                         <DeleteIcon />
                     </IconButton>
                 </ListItemSecondaryAction>

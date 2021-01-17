@@ -61,6 +61,11 @@ function App() {
           cursor: 'pointer'
         },
       },
+      MuiInputBase : {
+        root: {
+          height: '30px'
+        },
+      },
     },
   });
 

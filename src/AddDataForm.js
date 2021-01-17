@@ -43,20 +43,21 @@ const AddData = ({addItem}) =>{
     const styles = reactCSS({
         'default': {
           color: {
-            width: '36px',
-            height: '28px',
+            width: '30px',
+            height: '24px',
             borderRadius: '2px',
             background: `${userColorInput}`,
             borderWidth: '1px',
             borderStyle: 'solid'
           },
           swatch: {
-            padding: '5px',
+            padding: '4px',
             background: '#fff',
             borderRadius: '1px',
             boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
             display: 'inline-block',
             cursor: 'pointer',
+            margin: '0px 7px 0px 7px'
             
           },
           popover: {

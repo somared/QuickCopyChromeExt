@@ -34,7 +34,7 @@ function App() {
       bgcolor:backgroundColor
     };
 
-    let newUserList = [...userList]; 
+    let newUserList = [...userList];
     newUserList.push(newData);
     setUserList(newUserList);
 

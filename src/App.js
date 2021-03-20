@@ -10,11 +10,14 @@ import testData from "./testData.json";
 function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
-  // const[userList, setUserList] = useState(testData);
+
+  //Uncomment below line & comment next line to test locally in browser window using testData
+  //const[userList, setUserList] = useState(testData);   
   const[userList, setUserList] = useState([]);
   
   useEffect(() => {
     //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
+    //Comment below code to test locally in browser window using testData
     window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
       console.log("Total Bytes:" + tBytes);
       if(tBytes > 0){
@@ -38,6 +41,7 @@ function App() {
     newUserList.push(newData);
     setUserList(newUserList);
 
+    //Comment below code to test locally in browser window using testData
     window.chrome.storage.sync.set({'userData': newUserList}, function() {
       console.log('item added');
     });
@@ -47,6 +51,7 @@ function App() {
     let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
+    //Comment below code to test locally in browser window using testData
     window.chrome.storage.sync.set({'userData': newUserList}, function() {
       console.log('item deleted');
     });

@@ -9,6 +9,7 @@ const UserData = ({data, deleteItem, showMessage}) =>{
 
     const handleRemoveItem = (e) =>{
         deleteItem(e);
+        showMessage('Deleted');
     }
 
     const handleCopyItem = (e) =>{

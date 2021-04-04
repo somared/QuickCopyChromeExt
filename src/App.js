@@ -3,13 +3,16 @@ import { v4 as uuidv4 } from 'uuid';
 import Divider from '@material-ui/core/Divider'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import Button from '@material-ui/core/Button';
 import UserDataList from "./UserDataList" ;
 import AddData from "./AddDataForm"
 import testData from "./testData.json";
+import Footer from './Footer';
 
 function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
+  const[prevUserList, setPrevUserList] = useState([]);
 
   //Uncomment below line & comment next line to test locally in browser window using testData
   //const[userList, setUserList] = useState(testData);   
@@ -48,6 +51,8 @@ function App() {
   }
 
   const removeData = (itemId) =>{
+    let oldUserList = [...userList];
+    setPrevUserList(oldUserList);
     let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
@@ -60,6 +65,14 @@ function App() {
   const showSnackbar = (message) =>{
     setSnackBarMsg(message);
     setSnackbar(true);
+  }
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(false);
+  }
+
+  const handleUndoDelete = () => {
+    setUserList(prevUserList);
   }
 
   const overrideTheme = createMuiTheme({
@@ -81,12 +94,7 @@ function App() {
         }
       }
     },
-    
   });
-
-  const handleCloseSnackbar = () => {
-    setSnackbar(false);
-  }
 
   return (
     <div>
@@ -94,7 +102,20 @@ function App() {
         <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
         <Divider/>
         <AddData addItem={insertData}/>
-        <Snackbar autoHideDuration="1000" open={snackBar} onClose={handleCloseSnackbar} message={snackBarMsg} key="snackbar1" />
+        <Footer/>
+        <Snackbar 
+          autoHideDuration={snackBarMsg === 'Deleted' ? 3000 : 1000}
+          open={snackBar}
+          onClose={handleCloseSnackbar}
+          message={snackBarMsg}
+          key="snackbar1"
+          action={
+              snackBarMsg === 'Deleted' 
+              ?
+              <Button color="primary" size="small" onClick={handleUndoDelete}>UNDO</Button>
+              : ''
+          }
+        />
       </ThemeProvider>
     </div>
   );

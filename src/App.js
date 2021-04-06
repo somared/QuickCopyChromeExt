@@ -73,6 +73,11 @@ function App() {
 
   const handleUndoDelete = () => {
     setUserList(prevUserList);
+    
+    //Comment below code to test locally in browser window using testData
+    window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
+      console.log('item restored');
+    });
   }
 
   const overrideTheme = createMuiTheme({

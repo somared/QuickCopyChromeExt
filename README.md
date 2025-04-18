@@ -17,6 +17,28 @@ Quickly copy configured text to clipboard with two clicks. Sync configured text 
 3. Run `npm install` from root directory of the project
 
 &nbsp;
+
+## Troubleshooting
+If you encounter dependency-related errors when running `npm start` or building the project:
+
+1. Clear the npm cache and reinstall dependencies:
+   ```bash
+   npm cache clean --force
+   npm install
+   ```
+
+2. If you still see errors about missing modules (like 'ajv/dist/compile/codegen'):
+   ```bash
+   npm install ajv ajv-keywords
+   ```
+
+3. For persistent issues, try reinstalling with the legacy peer deps flag:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+&nbsp;
+
 ## Running the extension on chrome (or edge) in developer mode
 1. Build the project using following command from root directory  
 `npm run-script build-no-embed-script`

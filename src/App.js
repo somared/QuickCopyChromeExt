@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Divider from '@material-ui/core/Divider'
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
-import UserDataList from "./UserDataList" ;
-import AddData from "./AddDataForm"
+import Divider from '@mui/material/Divider';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
+import Button from '@mui/material/Button';
+import UserDataList from "./UserDataList";
+import AddData from "./AddDataForm";
 import testData from "./testData.json";
 import Footer from './Footer';
 
@@ -80,25 +80,31 @@ function App() {
     });
   }
 
-  const overrideTheme = createMuiTheme({
-    overrides: {
-    MuiOutlinedInput : {
-        inputMarginDense: {
-          cursor: 'pointer'
-        },
+  const overrideTheme = createTheme({
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          inputMarginDense: {
+            cursor: 'pointer'
+          }
+        }
       },
-      MuiInputBase : {
-        root: {
-          height: '30px'
-        },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            height: '30px'
+          }
+        }
       },
-      MuiSnackbarContent : {
-        root : {
-          lineHeight: '0.1',
-          minWidth: '100px'
+      MuiSnackbarContent: {
+        styleOverrides: {
+          root: {
+            lineHeight: '0.1',
+            minWidth: '100px'
+          }
         }
       }
-    },
+    }
   });
 
   return (

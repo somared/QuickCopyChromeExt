@@ -1,6 +1,6 @@
-import List from '@material-ui/core/List';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import List from '@mui/material/List';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import UserData from "./UserData";
 
 const UserDataList = ({dataList, removeItem, showMessage}) => {
@@ -8,7 +8,7 @@ const UserDataList = ({dataList, removeItem, showMessage}) => {
         <div style={{width:"350px"}}>
             {
                 (dataList.length > 0) ?
-                    <List dense="true" >
+                    <List dense >
                         {
                             dataList.map(d => {
                                 return(<UserData data={d} deleteItem={removeItem} key={d.id} showMessage={showMessage}/>)

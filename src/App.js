@@ -9,26 +9,45 @@ import AddData from "./AddDataForm";
 import testData from "./testData.json";
 import Footer from './Footer';
 
+// Development mode detection helper
+const isDevelopmentMode = () => {
+  // Check if we're running in development environment
+  if (process.env.NODE_ENV === 'development') {
+    return true;
+  }
+  
+  // Check if Chrome APIs are available
+  try {
+    return !window.chrome || !window.chrome.storage;
+  } catch (e) {
+    // If we get here, we're likely in development mode (browser without extension APIs)
+    return true;
+  }
+}
+
+// Use this flag throughout the application
+const IS_DEV_MODE = isDevelopmentMode();
+
 function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
   const[prevUserList, setPrevUserList] = useState([]);
 
-  //Uncomment below line & comment next line to test locally in browser window using testData
-  //const[userList, setUserList] = useState(testData);   
-  const[userList, setUserList] = useState([]);
+  // Use the development mode flag to determine initial state
+  const[userList, setUserList] = useState(IS_DEV_MODE ? testData : []);
   
   useEffect(() => {
-    //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
-      console.log("Total Bytes:" + tBytes);
-      if(tBytes > 0){
-          window.chrome.storage.sync.get(['userData'], function(result) {
-            setUserList(result.userData);
-          });
-      }
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
+        console.log("Total Bytes:" + tBytes);
+        if(tBytes > 0){
+            window.chrome.storage.sync.get(['userData'], function(result) {
+              setUserList(result.userData);
+            });
+        }
+      });
+    }
   }, []);   // [] is needed to run useEffect only once. https://css-tricks.com/run-useeffect-only-once/
   
 
@@ -44,10 +63,14 @@ function App() {
     newUserList.push(newData);
     setUserList(newUserList);
 
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({'userData': newUserList}, function() {
-      console.log('item added');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({'userData': newUserList}, function() {
+        console.log('item added');
+      });
+    } else {
+      console.log('[DEV MODE] Item added (not saved to Chrome storage)');
+    }
   }
 
   const removeData = (itemId) =>{
@@ -56,10 +79,14 @@ function App() {
     let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({'userData': newUserList}, function() {
-      console.log('item deleted');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({'userData': newUserList}, function() {
+        console.log('item deleted');
+      });
+    } else {
+      console.log('[DEV MODE] Item deleted (not saved to Chrome storage)');
+    }
   }
 
   const showSnackbar = (message) =>{
@@ -74,11 +101,34 @@ function App() {
   const handleUndoDelete = () => {
     setUserList(prevUserList);
     
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
-      console.log('item restored');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
+        console.log('item restored');
+      });
+    } else {
+      console.log('[DEV MODE] Item restored (not saved to Chrome storage)');
+    }
   }
+
+  // Display a development mode indicator
+  const DevModeIndicator = () => {
+    if (IS_DEV_MODE) {
+      return (
+        <div style={{ 
+          background: '#ff6b6b', 
+          color: 'white', 
+          padding: '3px 8px', 
+          fontSize: '10px',
+          fontWeight: 'bold',
+          textAlign: 'center'
+        }}>
+          DEVELOPMENT MODE
+        </div>
+      );
+    }
+    return null;
+  };
 
   const overrideTheme = createTheme({
     components: {
@@ -110,6 +160,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={overrideTheme}>
+        <DevModeIndicator />
         <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
         <Divider/>
         <AddData addItem={insertData}/>

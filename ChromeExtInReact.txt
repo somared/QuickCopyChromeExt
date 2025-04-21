@@ -17,6 +17,8 @@ https://casesandberg.github.io/react-color/
 Customizing material UI components
 https://material-ui.com/customization/components/
 
+Color picker:
+https://uiwjs.github.io/react-color/#/block
 
 
 Not all websites allow auto filling especially your company's work website. You may have long user IDs, emails, account numbers, etc which you need to type everyday. Quick Copy extension allows you to configure such text and easily copy right from your browser with two clicks. 

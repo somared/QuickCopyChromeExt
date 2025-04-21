@@ -4,12 +4,12 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import { TwitterPicker } from 'react-color';
+import Block from '@uiw/react-color-block';
 
 const AddData = ({addItem}) =>{
 
     const[userTextInput, setUserTextInput] = useState('');
-    const[userColorInput, setUserColorInput] = useState('#FFFFFF');
+    const[userColorInput, setUserColorInput] = useState('#8ED1FC');
     const[showColorPicker, setShowColorPicker] = useState(false);
 
     const handleTextChange = (e) => {
@@ -26,7 +26,7 @@ const AddData = ({addItem}) =>{
         if(userTextInput){
             addItem(userTextInput, userColorInput);
             setUserTextInput("");
-            setUserColorInput("#FFFFFF");
+            setUserColorInput("#8ED1FC");
         }
     }
 
@@ -87,7 +87,7 @@ const AddData = ({addItem}) =>{
                         showColorPicker ? 
                             <Popover>
                                 <Cover onClick={handleClose}/>
-                                <TwitterPicker color={userColorInput} colors={paletteColors} onChange={handleColorChange} triangle="hide" /> 
+                                <Block color={userColorInput} colors={paletteColors} onChange={handleColorChange} showTriangle={false} />
                             </Popover>
                             : null 
                     }

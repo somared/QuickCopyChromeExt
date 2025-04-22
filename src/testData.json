@@ -8,19 +8,19 @@
     {
         "id": "7e6e15ac-f4f7-48e4-9237-925d84754609",
         "text": "Sample data2",
-        "order": 2,
+        "order": 3,
         "bgcolor": "#FFFFFF"
     },
     {
         "id": "faac662f-4942-4a01-955e-647a763b16bc",
         "text": "Sample data3",
-        "order": 3,
+        "order": 4,
         "bgcolor": "#0693E3"
     },
     {
         "id": "1735354c-6ccd-49ee-815c-1caf1cc07ad3",
         "text": "Sample data4",
-        "order": 4,
+        "order": 2,
         "bgcolor": "#8ED1FC"
     }
 ]

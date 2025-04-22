@@ -32,9 +32,8 @@ function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
   const[prevUserList, setPrevUserList] = useState([]);
-
-  // Use the development mode flag to determine initial state
-  const[userList, setUserList] = useState(IS_DEV_MODE ? testData : []);
+  const[userList, setUserList] = useState([]);
+  const[highestOrder, setHighestOrder] = useState(0);
   
   useEffect(() => {
     // Only attempt to use Chrome storage in production mode
@@ -43,19 +42,34 @@ function App() {
         console.log("Total Bytes:" + tBytes);
         if(tBytes > 0){
             window.chrome.storage.sync.get(['userData'], function(result) {
-              setUserList(result.userData);
+              let sortedData = result.userData.sort((a, b) => a.order - b.order);
+              setUserList(sortedData);
+
+              // Initialize the highest order from sorted data
+              if (sortedData.length > 0) {
+                setHighestOrder(sortedData[sortedData.length - 1].order);
+              }
             });
         }
       });
+    }
+    else {
+      let sortedTestData = testData.sort((a, b) => a.order - b.order);
+      setUserList(sortedTestData);
+      if (sortedTestData.length > 0) {
+        setHighestOrder(sortedTestData[sortedTestData.length - 1].order);
+      }
     }
   }, []);   // [] is needed to run useEffect only once. https://css-tricks.com/run-useeffect-only-once/
   
 
   const insertData = (item,backgroundColor) =>{
+    const newOrder = highestOrder + 1;
+    setHighestOrder(newOrder);
     let newData={
       id: uuidv4(),
       text: item,
-      order:1,
+      order:newOrder,
       bgcolor:backgroundColor
     };
 

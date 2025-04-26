@@ -41,13 +41,47 @@ function App() {
       window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
         console.log("Total Bytes:" + tBytes);
         if(tBytes > 0){
-            window.chrome.storage.sync.get(['userData'], function(result) {
-              let sortedData = result.userData.sort((a, b) => a.order - b.order);
-              setUserList(sortedData);
 
-              // Initialize the highest order from sorted data
-              if (sortedData.length > 0) {
-                setHighestOrder(sortedData[sortedData.length - 1].order);
+            window.chrome.storage.sync.get(['version', 'userData'], function(result) {
+              let version = result.version;
+              //cast version to float
+              if (version !== undefined) {
+                version = parseFloat(version);
+              } else {
+                version = 0.0;
+              }
+              console.log("Version: " + version);
+
+              if (version < 1.0 && result.userData != undefined) {
+                // Perform migration logic here
+                console.log("Migrating data to version 1.0");
+                
+                //Give the order property a start number of 1 for first item then increment by 1 for each item
+                let migratedData = result.userData.map((item, index) => {
+                  return {
+                    ...item,
+                    order: index + 1 // Start from 1 for the first item
+                  };
+                }); 
+                
+                setHighestOrder(migratedData.length);
+                setUserList(migratedData);
+
+                window.chrome.storage.sync.set({ 'userData': migratedData, 'version': 1.0 }, function() {
+                  console.log('Data migrated to version 1.0');
+                });
+              }
+              else {
+                console.log("No migration needed");
+                window.chrome.storage.sync.get(['userData'], function(result) {
+                  let sortedData = result.userData.sort((a, b) => a.order - b.order);
+                  setUserList(sortedData);
+    
+                  // Initialize the highest order from sorted data
+                  if (sortedData.length > 0) {
+                    setHighestOrder(sortedData[sortedData.length - 1].order);
+                  }
+                });
               }
             });
         }

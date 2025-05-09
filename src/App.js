@@ -1,42 +1,109 @@
 import React, {useState, useEffect} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Divider from '@material-ui/core/Divider'
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
-import UserDataList from "./UserDataList" ;
-import AddData from "./AddDataForm"
+import Divider from '@mui/material/Divider';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Snackbar from '@mui/material/Snackbar';
+import Button from '@mui/material/Button';
+import UserDataList from "./UserDataList";
+import AddData from "./AddDataForm";
 import testData from "./testData.json";
 import Footer from './Footer';
+
+// Development mode detection helper
+const isDevelopmentMode = () => {
+  // Check if we're running in development environment
+  if (process.env.NODE_ENV === 'development') {
+    return true;
+  }
+  
+  // Check if Chrome APIs are available
+  try {
+    return !window.chrome || !window.chrome.storage;
+  } catch (e) {
+    // If we get here, we're likely in development mode (browser without extension APIs)
+    return true;
+  }
+}
+
+// Use this flag throughout the application
+const IS_DEV_MODE = isDevelopmentMode();
 
 function App() {
   const[snackBar, setSnackbar] = useState(false);
   const[snackBarMsg, setSnackBarMsg] = useState('');
   const[prevUserList, setPrevUserList] = useState([]);
-
-  //Uncomment below line & comment next line to test locally in browser window using testData
-  //const[userList, setUserList] = useState(testData);   
   const[userList, setUserList] = useState([]);
+  const[highestOrder, setHighestOrder] = useState(0);
   
   useEffect(() => {
-    //window.chrome.storage.sync.get return empty obj and not null so to check if storage is empty we have to do as below
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
-      console.log("Total Bytes:" + tBytes);
-      if(tBytes > 0){
-          window.chrome.storage.sync.get(['userData'], function(result) {
-            setUserList(result.userData);
-          });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
+        console.log("Total Bytes:" + tBytes);
+        if(tBytes > 0){
+
+            window.chrome.storage.sync.get(['version', 'userData'], function(result) {
+              let version = result.version;
+              //cast version to float
+              if (version !== undefined) {
+                version = parseFloat(version);
+              } else {
+                version = 0.0;
+              }
+              console.log("Version: " + version);
+
+              if (version < 1.0 && result.userData != undefined) {
+                // Perform migration logic here
+                console.log("Migrating data to version 1.0");
+                
+                //Give the order property a start number of 1 for first item then increment by 1 for each item
+                let migratedData = result.userData.map((item, index) => {
+                  return {
+                    ...item,
+                    order: index + 1 // Start from 1 for the first item
+                  };
+                }); 
+                
+                setHighestOrder(migratedData.length);
+                setUserList(migratedData);
+
+                window.chrome.storage.sync.set({ 'userData': migratedData, 'version': '1.0' }, function() {
+                  console.log('Data migrated to version 1.0');
+                });
+              }
+              else {
+                console.log("No migration needed");
+                window.chrome.storage.sync.get(['userData'], function(result) {
+                  let sortedData = result.userData.sort((a, b) => a.order - b.order);
+                  setUserList(sortedData);
+    
+                  // Initialize the highest order from sorted data
+                  if (sortedData.length > 0) {
+                    setHighestOrder(sortedData[sortedData.length - 1].order);
+                  }
+                });
+              }
+            });
+        }
+      });
+    }
+    else {
+      let sortedTestData = testData.sort((a, b) => a.order - b.order);
+      setUserList(sortedTestData);
+      if (sortedTestData.length > 0) {
+        setHighestOrder(sortedTestData[sortedTestData.length - 1].order);
       }
-    });
+    }
   }, []);   // [] is needed to run useEffect only once. https://css-tricks.com/run-useeffect-only-once/
   
 
   const insertData = (item,backgroundColor) =>{
+    const newOrder = highestOrder + 1;
+    setHighestOrder(newOrder);
     let newData={
       id: uuidv4(),
       text: item,
-      order:1,
+      order:newOrder,
       bgcolor:backgroundColor
     };
 
@@ -44,10 +111,14 @@ function App() {
     newUserList.push(newData);
     setUserList(newUserList);
 
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({'userData': newUserList}, function() {
-      console.log('item added');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({'userData': newUserList}, function() {
+        console.log('item added');
+      });
+    } else {
+      console.log('[DEV MODE] Item added (not saved to Chrome storage)');
+    }
   }
 
   const removeData = (itemId) =>{
@@ -56,10 +127,14 @@ function App() {
     let newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({'userData': newUserList}, function() {
-      console.log('item deleted');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({'userData': newUserList}, function() {
+        console.log('item deleted');
+      });
+    } else {
+      console.log('[DEV MODE] Item deleted (not saved to Chrome storage)');
+    }
   }
 
   const showSnackbar = (message) =>{
@@ -74,36 +149,66 @@ function App() {
   const handleUndoDelete = () => {
     setUserList(prevUserList);
     
-    //Comment below code to test locally in browser window using testData
-    window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
-      console.log('item restored');
-    });
+    // Only attempt to use Chrome storage in production mode
+    if (!IS_DEV_MODE) {
+      window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
+        console.log('item restored');
+      });
+    } else {
+      console.log('[DEV MODE] Item restored (not saved to Chrome storage)');
+    }
   }
 
-  const overrideTheme = createMuiTheme({
-    overrides: {
-    MuiOutlinedInput : {
-        inputMarginDense: {
-          cursor: 'pointer'
-        },
+  // Display a development mode indicator
+  const DevModeIndicator = () => {
+    if (IS_DEV_MODE) {
+      return (
+        <div style={{ 
+          background: '#ff6b6b', 
+          color: 'white', 
+          padding: '3px 8px', 
+          fontSize: '10px',
+          fontWeight: 'bold',
+          textAlign: 'center'
+        }}>
+          DEVELOPMENT MODE
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const overrideTheme = createTheme({
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          inputMarginDense: {
+            cursor: 'pointer'
+          }
+        }
       },
-      MuiInputBase : {
-        root: {
-          height: '30px'
-        },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            height: '30px'
+          }
+        }
       },
-      MuiSnackbarContent : {
-        root : {
-          lineHeight: '0.1',
-          minWidth: '100px'
+      MuiSnackbarContent: {
+        styleOverrides: {
+          root: {
+            lineHeight: '0.1',
+            minWidth: '100px'
+          }
         }
       }
-    },
+    }
   });
 
   return (
     <div>
       <ThemeProvider theme={overrideTheme}>
+        <DevModeIndicator />
         <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
         <Divider/>
         <AddData addItem={insertData}/>

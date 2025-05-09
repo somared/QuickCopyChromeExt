@@ -1,9 +1,22 @@
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import TextField from '@material-ui/core/TextField';
+import ListItem from '@mui/material/ListItem';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from '@mui/material/TextField';
+import { styled } from '@mui/material/styles';
 
+// Styled TextField with pointer cursor
+const PointerTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    cursor: 'pointer',
+  },
+  '& .MuiInputBase-input': {
+    cursor: 'pointer',
+  },
+  '&:hover': {
+    cursor: 'pointer',
+  },
+});
 
 const UserData = ({data, deleteItem, showMessage}) =>{
 
@@ -21,9 +34,21 @@ const UserData = ({data, deleteItem, showMessage}) =>{
     return(
         <div>
             <ListItem>
-                <TextField style={{backgroundColor:`${data.bgcolor}`}} fullWidth variant="outlined" size="small" value={data.text} onClick={handleCopyItem}/>
+                <PointerTextField 
+                    style={{
+                        backgroundColor: `${data.bgcolor}`
+                    }} 
+                    fullWidth 
+                    variant="outlined" 
+                    size="small" 
+                    value={data.text} 
+                    onClick={handleCopyItem}
+                    inputProps={{
+                        style: { cursor: 'pointer' }
+                    }}
+                />
                 <ListItemSecondaryAction>
-                    <IconButton edge="end"  aria-label="delete" onClick={()=>handleRemoveItem(data.id)}  >
+                    <IconButton edge="end" aria-label="delete" onClick={()=>handleRemoveItem(data.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </ListItemSecondaryAction>
@@ -32,4 +57,4 @@ const UserData = ({data, deleteItem, showMessage}) =>{
     );
 }
 
-export default UserData; 
+export default UserData;

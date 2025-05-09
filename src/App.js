@@ -67,7 +67,7 @@ function App() {
                 setHighestOrder(migratedData.length);
                 setUserList(migratedData);
 
-                window.chrome.storage.sync.set({ 'userData': migratedData, 'version': 1.0 }, function() {
+                window.chrome.storage.sync.set({ 'userData': migratedData, 'version': '1.0' }, function() {
                   console.log('Data migrated to version 1.0');
                 });
               }

@@ -38,7 +38,7 @@ function App() {
 
           if (version < 1.0 && result.userData !== undefined) {
             // Perform migration logic
-            console.log("Migrating data to version 1.0");
+            console.log("Migrating data to version 1.1");
             
             // Add order property
             const migratedData = result.userData.map((item, index) => ({
@@ -52,9 +52,9 @@ function App() {
             // Save migrated data
             await storageService.saveData({ 
               'userData': migratedData, 
-              'version': '1.0' 
+              'version': '1.1' 
             });
-            console.log('Data migrated to version 1.0');
+            console.log('Data migrated to version 1.1');
           } else {
             console.log("No migration needed");
             
@@ -67,6 +67,10 @@ function App() {
             if (sortedData.length > 0) {
               setHighestOrder(sortedData[sortedData.length - 1].order);
             }
+
+            await storageService.saveData({ 
+              'version': '1.1' 
+            });
           }
         } else {
           // Handle empty storage case - this will use the test data in dev mode
@@ -80,6 +84,10 @@ function App() {
               setHighestOrder(sortedData[sortedData.length - 1].order);
             }
           }
+
+          await storageService.saveData({ 
+              'version': '1.1' 
+          });
         }
       } catch (error) {
         console.error("Error loading user data:", error);
@@ -124,6 +132,24 @@ function App() {
       console.log('Item deleted');
     } catch (error) {
       console.error('Error removing item:', error);
+    }
+  }
+
+  const reorderItems = async (items) => {
+    const reorderedItems = items.map((item, index) => ({
+      ...item,
+      order: index + 1
+    }));
+    
+    setUserList(reorderedItems);
+    setHighestOrder(reorderedItems.length);
+    
+    // Save data using our storage service
+    try {
+      await storageService.saveData({ 'userData': reorderedItems });
+      console.log('Items reordered');
+    } catch (error) {
+      console.error('Error saving reordered items:', error);
     }
   }
 
@@ -178,7 +204,7 @@ function App() {
     <div>
       <ThemeProvider theme={overrideTheme}>
         <DevModeIndicator />
-        <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
+        <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} onReorder={reorderItems} />
         <Divider/>
         <AddData addItem={insertData}/>
         <Footer/>

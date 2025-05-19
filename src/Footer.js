@@ -18,7 +18,7 @@ const Footer = () => {
                     <GitHubIcon sx={{ color: 'black' }} fontSize="small"/>
                 </IconButton>
                 <Box sx={{ alignContent: 'center'}}>
-                    v1.0.0
+                    v1.1.0
                 </Box>
             </Box>
             

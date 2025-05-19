@@ -5,7 +5,7 @@ class DevModeStorage {
   constructor() {
     this.data = {
       userData: [...testData].sort((a, b) => a.order - b.order),
-      version: '1.0'
+      version: '1.1'
     };
     console.log('[DEV MODE] Initialized with test data');
   }

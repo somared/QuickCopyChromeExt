@@ -22,7 +22,8 @@ function App() {
       try {
         // Check if there's any data in storage
         const bytesInUse = await storageService.getBytesInUse();
-        
+        const latestVersionNum = '1.1'; 
+
         if (bytesInUse > 0) {
           // Get version and userData
           const result = await storageService.getItems(['version', 'userData']);
@@ -38,7 +39,7 @@ function App() {
 
           if (version < 1.0 && result.userData !== undefined) {
             // Perform migration logic
-            console.log("Migrating data to version 1.1");
+            console.log("Migrating data to version {0}", latestVersionNum);
             
             // Add order property
             const migratedData = result.userData.map((item, index) => ({
@@ -52,9 +53,9 @@ function App() {
             // Save migrated data
             await storageService.saveData({ 
               'userData': migratedData, 
-              'version': '1.1' 
+              'version': latestVersionNum 
             });
-            console.log('Data migrated to version 1.1');
+            console.log('Data migrated to version {0}', latestVersionNum);
           } else {
             console.log("No migration needed");
             
@@ -69,7 +70,7 @@ function App() {
             }
 
             await storageService.saveData({ 
-              'version': '1.1' 
+              'version': latestVersionNum
             });
           }
         } else {
@@ -86,7 +87,7 @@ function App() {
           }
 
           await storageService.saveData({ 
-              'version': '1.1' 
+              'version': latestVersionNum,
           });
         }
       } catch (error) {

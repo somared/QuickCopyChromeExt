@@ -55,7 +55,7 @@ const UserDataList = ({dataList, removeItem, showMessage, onReorder}) => {
     const activeItem = activeId ? dataList.find(item => item.id === activeId) : null;
     
     return(
-        <div style={{width:"350px"}}>
+        <div style={{width:"400px"}}>
             {
                 (dataList.length > 0) ?
                     <DndContext

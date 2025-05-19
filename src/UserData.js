@@ -27,7 +27,7 @@ const PointerTextField = styled(TextField)({
 const DragHandle = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  marginRight: "8px",
+  marginRight: "0px",
   cursor: "grab",
   color: theme.palette.text.secondary,
   "&:hover": {

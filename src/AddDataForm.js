@@ -76,7 +76,7 @@ const AddData = ({addItem}) =>{
     return(
         
         <form onSubmit={handleSubmit}>
-            <List dense style={{width:"350px"}}>
+            <List dense style={{width:"400px"}}>
                 <ListItem>
                     <TextField size="small" value={userTextInput} onChange={handleTextChange} placeholder="Enter new data ..."/>
                     <SwatchWrapper onClick={handleSwatchClick}>

@@ -17,9 +17,12 @@ const Footer = () => {
                 <IconButton href="https://github.com/somared/QuickCopyChromeExt" size="small" color="primary" edge="end" target="_blank" >
                     <GitHubIcon sx={{ color: 'black' }} fontSize="small"/>
                 </IconButton>
+                <Box sx={{ alignContent: 'center'}}>
+                    v1.0.0
+                </Box>
             </Box>
+            
         </StyledDiv>
     );
 }
-
 export default Footer;

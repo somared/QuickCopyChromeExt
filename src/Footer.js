@@ -18,7 +18,7 @@ const Footer = () => {
                 <IconButton href="https://github.com/somared/QuickCopyChromeExt" size="small" color="primary" edge="end" target="_blank" >
                     <GitHubIcon sx={{ color: 'black' }} fontSize="small"/>
                 </IconButton>
-                <IconButton href="https://github.com/somared/QuickCopyChromeExt" size="small" color="primary" edge="end" target="_blank" >
+                <IconButton href="https://somared.github.io/QuickCopyChromeExt" size="small" color="primary" edge="end" target="_blank" >
                     <Help sx={{ color: 'black' }} fontSize="small"/>
                 </IconButton>
                 <Box sx={{ alignContent: 'center'}}>

@@ -6,27 +6,9 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import UserDataList from "./UserDataList";
 import AddData from "./AddDataForm";
-import testData from "./testData.json";
 import Footer from './Footer';
-
-// Development mode detection helper
-const isDevelopmentMode = () => {
-  // Check if we're running in development environment
-  if (process.env.NODE_ENV === 'development') {
-    return true;
-  }
-  
-  // Check if Chrome APIs are available
-  try {
-    return !window.chrome || !window.chrome.storage;
-  } catch (e) {
-    // If we get here, we're likely in development mode (browser without extension APIs)
-    return true;
-  }
-}
-
-// Use this flag throughout the application
-const IS_DEV_MODE = isDevelopmentMode();
+import DevModeIndicator from './DevModeIndicator';
+import storageService, { IS_DEV_MODE } from './services/storageService';
 
 function App() {
   const[snackBar, setSnackbar] = useState(false);
@@ -36,108 +18,143 @@ function App() {
   const[highestOrder, setHighestOrder] = useState(0);
   
   useEffect(() => {
-    // Only attempt to use Chrome storage in production mode
-    if (!IS_DEV_MODE) {
-      window.chrome.storage.sync.getBytesInUse(null, function(tBytes) {
-        console.log("Total Bytes:" + tBytes);
-        if(tBytes > 0){
+    const loadUserData = async () => {
+      try {
+        // Check if there's any data in storage
+        const bytesInUse = await storageService.getBytesInUse();
+        const latestVersionNum = '1.1'; 
 
-            window.chrome.storage.sync.get(['version', 'userData'], function(result) {
-              let version = result.version;
-              //cast version to float
-              if (version !== undefined) {
-                version = parseFloat(version);
-              } else {
-                version = 0.0;
-              }
-              console.log("Version: " + version);
+        if (bytesInUse > 0) {
+          // Get version and userData
+          const result = await storageService.getItems(['version', 'userData']);
+          let version = result.version;
+          
+          // Cast version to float
+          if (version !== undefined) {
+            version = parseFloat(version);
+          } else {
+            version = 0.0;
+          }
+          console.log("Version:", version);
 
-              if (version < 1.0 && result.userData != undefined) {
-                // Perform migration logic here
-                console.log("Migrating data to version 1.0");
-                
-                //Give the order property a start number of 1 for first item then increment by 1 for each item
-                let migratedData = result.userData.map((item, index) => {
-                  return {
-                    ...item,
-                    order: index + 1 // Start from 1 for the first item
-                  };
-                }); 
-                
-                setHighestOrder(migratedData.length);
-                setUserList(migratedData);
+          if (version < 1.0 && result.userData !== undefined) {
+            // Perform migration logic
+            console.log("Migrating data to version {0}", latestVersionNum);
+            
+            // Add order property
+            const migratedData = result.userData.map((item, index) => ({
+              ...item,
+              order: index + 1 // Start from 1 for the first item
+            }));
+            
+            setHighestOrder(migratedData.length);
+            setUserList(migratedData);
 
-                window.chrome.storage.sync.set({ 'userData': migratedData, 'version': '1.0' }, function() {
-                  console.log('Data migrated to version 1.0');
-                });
-              }
-              else {
-                console.log("No migration needed");
-                window.chrome.storage.sync.get(['userData'], function(result) {
-                  let sortedData = result.userData.sort((a, b) => a.order - b.order);
-                  setUserList(sortedData);
-    
-                  // Initialize the highest order from sorted data
-                  if (sortedData.length > 0) {
-                    setHighestOrder(sortedData[sortedData.length - 1].order);
-                  }
-                });
-              }
+            // Save migrated data
+            await storageService.saveData({ 
+              'userData': migratedData, 
+              'version': latestVersionNum 
             });
-        }
-      });
-    }
-    else {
-      let sortedTestData = testData.sort((a, b) => a.order - b.order);
-      setUserList(sortedTestData);
-      if (sortedTestData.length > 0) {
-        setHighestOrder(sortedTestData[sortedTestData.length - 1].order);
-      }
-    }
-  }, []);   // [] is needed to run useEffect only once. https://css-tricks.com/run-useeffect-only-once/
-  
+            console.log('Data migrated to version {0}', latestVersionNum);
+          } else {
+            console.log("No migration needed");
+            
+            // Get userData
+            const userData = await storageService.getItems(['userData']);
+            let sortedData = userData.userData.sort((a, b) => a.order - b.order);
+            setUserList(sortedData);
 
-  const insertData = (item,backgroundColor) =>{
-    const newOrder = highestOrder + 1;
-    setHighestOrder(newOrder);
-    let newData={
-      id: uuidv4(),
-      text: item,
-      order:newOrder,
-      bgcolor:backgroundColor
+            // Initialize the highest order from sorted data
+            if (sortedData.length > 0) {
+              setHighestOrder(sortedData[sortedData.length - 1].order);
+            }
+
+            await storageService.saveData({ 
+              'version': latestVersionNum
+            });
+          }
+        } else {
+          // Handle empty storage case - this will use the test data in dev mode
+          // or create empty data in production mode
+          const data = await storageService.getData();
+          if (data.userData) {
+            const sortedData = data.userData.sort((a, b) => a.order - b.order);
+            setUserList(sortedData);
+            
+            if (sortedData.length > 0) {
+              setHighestOrder(sortedData[sortedData.length - 1].order);
+            }
+          }
+
+          await storageService.saveData({ 
+              'version': latestVersionNum,
+          });
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+      }
     };
 
-    let newUserList = [...userList];
-    newUserList.push(newData);
+    loadUserData();
+  }, []);   // [] is needed to run useEffect only once. https://css-tricks.com/run-useeffect-only-once/
+  
+  const insertData = async (item, backgroundColor) => {
+    const newOrder = highestOrder + 1;
+    setHighestOrder(newOrder);
+    
+    const newData = {
+      id: uuidv4(),
+      text: item,
+      order: newOrder,
+      bgcolor: backgroundColor
+    };
+
+    const newUserList = [...userList, newData];
     setUserList(newUserList);
 
-    // Only attempt to use Chrome storage in production mode
-    if (!IS_DEV_MODE) {
-      window.chrome.storage.sync.set({'userData': newUserList}, function() {
-        console.log('item added');
-      });
-    } else {
-      console.log('[DEV MODE] Item added (not saved to Chrome storage)');
+    // Save data using our storage service
+    try {
+      await storageService.saveData({ 'userData': newUserList });
+      console.log('Item added');
+    } catch (error) {
+      console.error('Error saving new item:', error);
     }
   }
 
-  const removeData = (itemId) =>{
-    let oldUserList = [...userList];
+  const removeData = async (itemId) => {
+    const oldUserList = [...userList];
     setPrevUserList(oldUserList);
-    let newUserList = userList.filter(item => item.id !== itemId);
+    const newUserList = userList.filter(item => item.id !== itemId);
     setUserList(newUserList);
 
-    // Only attempt to use Chrome storage in production mode
-    if (!IS_DEV_MODE) {
-      window.chrome.storage.sync.set({'userData': newUserList}, function() {
-        console.log('item deleted');
-      });
-    } else {
-      console.log('[DEV MODE] Item deleted (not saved to Chrome storage)');
+    // Save data using our storage service
+    try {
+      await storageService.saveData({ 'userData': newUserList });
+      console.log('Item deleted');
+    } catch (error) {
+      console.error('Error removing item:', error);
     }
   }
 
-  const showSnackbar = (message) =>{
+  const reorderItems = async (items) => {
+    const reorderedItems = items.map((item, index) => ({
+      ...item,
+      order: index + 1
+    }));
+    
+    setUserList(reorderedItems);
+    setHighestOrder(reorderedItems.length);
+    
+    // Save data using our storage service
+    try {
+      await storageService.saveData({ 'userData': reorderedItems });
+      console.log('Items reordered');
+    } catch (error) {
+      console.error('Error saving reordered items:', error);
+    }
+  }
+
+  const showSnackbar = (message) => {
     setSnackBarMsg(message);
     setSnackbar(true);
   }
@@ -146,38 +163,17 @@ function App() {
     setSnackbar(false);
   }
 
-  const handleUndoDelete = () => {
+  const handleUndoDelete = async () => {
     setUserList(prevUserList);
     
-    // Only attempt to use Chrome storage in production mode
-    if (!IS_DEV_MODE) {
-      window.chrome.storage.sync.set({ 'userData': prevUserList }, function () {
-        console.log('item restored');
-      });
-    } else {
-      console.log('[DEV MODE] Item restored (not saved to Chrome storage)');
+    // Save data using our storage service
+    try {
+      await storageService.saveData({ 'userData': prevUserList });
+      console.log('Item restored');
+    } catch (error) {
+      console.error('Error restoring item:', error);
     }
   }
-
-  // Display a development mode indicator
-  const DevModeIndicator = () => {
-    if (IS_DEV_MODE) {
-      return (
-        <div style={{ 
-          background: '#ff6b6b', 
-          color: 'white', 
-          padding: '3px 8px', 
-          fontSize: '10px',
-          fontWeight: 'bold',
-          textAlign: 'center'
-        }}>
-          DEVELOPMENT MODE
-        </div>
-      );
-    }
-    return null;
-  };
-
   const overrideTheme = createTheme({
     components: {
       MuiOutlinedInput: {
@@ -209,7 +205,7 @@ function App() {
     <div>
       <ThemeProvider theme={overrideTheme}>
         <DevModeIndicator />
-        <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} />
+        <UserDataList dataList={userList} removeItem={removeData} showMessage={showSnackbar} onReorder={reorderItems} />
         <Divider/>
         <AddData addItem={insertData}/>
         <Footer/>

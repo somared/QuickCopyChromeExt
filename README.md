@@ -2,7 +2,7 @@
 
 Quickly copy configured text to clipboard with two clicks. Sync configured text across devices.
 
-![Promo Tile](docs/publish/common/promo_tile.png)
+![Promo Tile](docs/publish/screenshots/img_2.png)
 #### [Chrome webstore link](https://chrome.google.com/webstore/detail/quick-copy/llemocbeniphffbfjifkpkdkheicomdf)
 
 #### [Microsoft Edge Add-ons link](https://microsoftedge.microsoft.com/addons/detail/quick-copy/giodfegjpbcahiaegpmccclhgolnpldc) 

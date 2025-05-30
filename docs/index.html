@@ -3,123 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Copy - Coming Soon</title>
+    <title>Quick Copy Chrome Extension - User Guide</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            text-align: center;
-            line-height: 1.6;
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+             background: #f5f5f5;
             min-height: 100vh;
+            padding: 20px;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        .tagline {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            color: #7f8c8d;
-        }
-        .construction {
-            margin: 30px 0;
-        }
-        .quote-container {
-            background-color: #fff;
-            border-left: 5px solid #3498db;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin: 30px 0;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .quote {
-            font-style: italic;
-            font-size: 1.2rem;
-        }
-        .author {
-            font-weight: bold;
-            text-align: right;
-            margin-top: 10px;
-        }
-        .progress-container {
-            background-color: #e0e0e0;
-            border-radius: 20px;
-            height: 30px;
-            width: 80%;
-            margin: 40px auto;
-            position: relative;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        .progress-bar {
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-            height: 100%;
-            width: 25%;
-            border-radius: 20px;
-            animation: progress 2s ease-in-out infinite alternate;
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
         }
-        @keyframes progress {
-            0% { width: 15%; }
-            100% { width: 35%; }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
-        .emoji {
-            font-size: 5rem;
-            margin: 20px 0;
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .intro {
+            background: #f8fafc;
+            border: 1px solid #475569; 
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fafbfc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .subsection h3 {
+            font-size: 1.3rem;
+            color: #4f46e5;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subsection h3::before {
+            content: "✔";
+            margin-right: 10px;
+            color: #7c3aed;
+        }
+
+        .subsection p {
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(45deg, #f1f5f9, #e2e8f0);
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h4 {
+            color: #4f46e5;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .permissions-section {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .permissions-section h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .permissions-section p {
+            color: #78350f;
+            font-size: 1rem;
+        }
+
         .footer {
-            margin-top: 60px;
-            color: #7f8c8d;
+            background: #f8fafc;
+            padding: 20px 30px;
+            text-align: center;
+            color: #64748b;
             font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .intro {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Quick Copy Chrome Extension</h1>
-        <p class="tagline">Making copying content quicker than ever.</p>
-        
-        <div class="construction">
-            <div class="emoji">🚧</div>
-            <h2>WORK IN PROGRESS</h2>
-            <p>Our team of highly caffeinated developers is busy building something amazing.</p>
-            
-            <div class="progress-container">
-                <div class="progress-bar"></div>
+        <div class="header">
+            <h1>Quick Copy Chrome Extension</h1>
+            <p>User Guide & Documentation</p>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <p>You may have long user IDs, emails, account numbers, or other frequently used text that you need to type every day. Quick Copy extension allows you to configure such text and easily copy it right from your browser with just two clicks.</p>
+                <p>This powerful tool helps streamline your workflow by eliminating repetitive typing and ensuring accuracy when copying important information.</p>
             </div>
-            <p>Estimated completion: When it's ready™</p>
+
+            <div class="section">
+                <h2>How to Use Quick Copy</h2>
+
+                <div class="subsection">
+                    <h3>Adding New Text by Selecting Background Color</h3>
+                    <p>Input your text and optionally select a background color to categorize or visually distinguish your entries. Click the "Add" button to save the text. The background color helps you quickly identify and group related items, making it especially helpful during busy workdays.</p>
+                    <div class="image-placeholder">
+                        <img src="publish/screenshots/img_6.png" alt="Add Text Screenshot" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Copying the Already Configured Text</h3>
+                    <p>To copy any of your configured text, simply click on the desired entry. The text will be automatically copied to your clipboard, ready to be pasted wherever you need it. No need for multiple clicks or complex menus.</p>
+                    <div class="image-placeholder">
+                        <img src="publish/screenshots/img_2.png" alt="Add Text Screenshot" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Rearrange Text Using Drag-Drop</h3>
+                    <p>Organize your text entries by dragging and dropping them into your preferred order. This feature allows you to prioritize frequently used items or group related entries together for better workflow efficiency.</p>
+                    <div class="image-placeholder">
+                        <img src="publish/screenshots/img_4.png" alt="Add Text Screenshot" style="width: 100%; height: auto;">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Text Syncs Across Devices</h3>
+                    <p>Your configured text automatically syncs across all your devices where you're signed into Chrome. This requires you to enable Sync functionality in your browser settings. Work seamlessly across desktop, laptop, and other devices with your text always available.</p>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Are you a Developer?</h2>
+                <div class="subsection">
+                    <p>Source code is available for review and contribution on 
+                        <a target="_blank" href="https://github.com/somared/QuickCopyChromeExt">Github </a> 
+                    </p>
+                    <p>Feel free to report issues, suggest features, or contribute to the project. Your feedback is invaluable in making this extension better for everyone.</p>
+                </div>
+            </div>
+            <div class="permissions-section">
+                <h3>Privacy & Permissions</h3>
+                <p>This extension does not have access to webpages or any content on the sites you visit. It does not transmit any data externally. The ONLY permission required is "storage" which is used exclusively for storing your configured text locally and syncing it through Chrome's built-in sync service when enabled.</p>
+            </div>
         </div>
-        
-        <div class="quote-container">
-            <p class="quote">"The best way to predict the future is to implement it. But give us a minute, we're still working on that implementation."</p>
-            <p class="author">— The Quick Copy Team</p>
-        </div>
-        
-        <div class="quote-container">
-            <p class="quote">"Copy, paste, and repeat. The three stages of every developer's career. We're just making the first part easier."</p>
-            <p class="author">— Anonymous Coder</p>
-        </div>
-        
-        <div class="emoji">🤓 ✂️ 📋</div>
-        
-        <p>Check back soon for the most efficient copying experience of your life!</p>
-        
+
         <div class="footer">
-            <p>© 2025 Quick Copy Chrome Extension | All rights reserved</p>
-            <p><small>No clipboard was harmed during the making of this extension</small></p>
+            <p>Quick Copy Chrome Extension v1.1.0 - Streamline your workflow with efficient text management</p>
         </div>
     </div>
 </body>

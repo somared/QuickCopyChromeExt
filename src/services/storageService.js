@@ -3,8 +3,8 @@ import DevModeStorage from './devModeStorage';
 import ChromeStorage from './chromeStorage';
 
 const isDevelopmentMode = () => {
-  // Check if we're running in development environment
-  if (process.env.NODE_ENV === 'development') {
+  // Check if we're running in development environment (Vite sets import.meta.env.DEV)
+  if (import.meta.env.DEV) {
     return true;
   }
   

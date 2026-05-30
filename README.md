@@ -18,23 +18,21 @@ Quickly copy configured text to clipboard with two clicks. Sync configured text 
 
 &nbsp;
 
+> This project uses [Vite](https://vite.dev/) as its build tool. Node.js 20.19+ (or 22.12+) is required.
+
 ## Troubleshooting
 If you encounter dependency-related errors when running `npm start` or building the project:
 
 1. Clear the npm cache and reinstall dependencies:
    ```bash
    npm cache clean --force
+   rm -rf node_modules package-lock.json
    npm install
    ```
 
-2. If you still see errors about missing modules (like 'ajv/dist/compile/codegen'):
+2. Run a security audit to confirm dependencies are clean:
    ```bash
-   npm install ajv ajv-keywords
-   ```
-
-3. For persistent issues, try reinstalling with the legacy peer deps flag:
-   ```bash
-   npm install --legacy-peer-deps
+   npm audit
    ```
 
 &nbsp;

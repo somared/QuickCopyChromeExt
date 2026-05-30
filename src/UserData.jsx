@@ -1,6 +1,5 @@
 ﻿// filepath: c:\MyRepos\QuickCopyChromeExt\src\UserData.js
 import ListItem from '@mui/material/ListItem';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -67,28 +66,31 @@ const UserData = ({ data, deleteItem, showMessage, id, isDragging }) => {
     
     return (
         <div ref={setNodeRef} style={style}>
-            <ListItem>
-                <DragHandle {...attributes} {...listeners}>
-                    <DragIndicatorIcon />
-                </DragHandle>
-                <PointerTextField 
-                    style={{
-                        backgroundColor: `${data.bgcolor}`
-                    }} 
-                    fullWidth 
-                    variant="outlined" 
-                    size="small" 
-                    value={data.text} 
-                    onClick={handleCopyItem}
-                    inputProps={{
-                        style: { cursor: "pointer" }
-                    }}
-                />
-                <ListItemSecondaryAction>
+            <ListItem
+                secondaryAction={
                     <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveItem(data.id)}>
                         <DeleteIcon />
                     </IconButton>
-                </ListItemSecondaryAction>
+                }
+            >
+                <DragHandle {...attributes} {...listeners}>
+                    <DragIndicatorIcon />
+                </DragHandle>
+                <PointerTextField
+                    style={{
+                        backgroundColor: `${data.bgcolor}`
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    size="small"
+                    value={data.text}
+                    onClick={handleCopyItem}
+                    slotProps={{
+                        htmlInput: {
+                            style: { cursor: "pointer" }
+                        }
+                    }}
+                />
             </ListItem>
         </div>
     );
